@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Thisaru on 3/5/2016.
  */
@@ -16,6 +19,17 @@ public enum VehicleTypes {
     VehicleTypes (String type, int id) {
         this.type = type;
         this.id = id;
+    }
+
+    private static final Map<String, VehicleTypes> map = new HashMap<>();
+    static {
+        for (VehicleTypes en : values()) {
+            map.put(en.type, en);
+        }
+    }
+
+    public static VehicleTypes valueFor(String name) {
+        return map.get(name);
     }
 
     public String getType() {

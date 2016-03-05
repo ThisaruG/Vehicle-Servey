@@ -16,12 +16,12 @@ public class TimeManager {
     public TimeManager () {
         Calendar calendar = Calendar.getInstance();
 
-        year = calendar.YEAR;
-        month = calendar.MONTH;
-        date = calendar.DAY_OF_MONTH;
-        hour = calendar.HOUR_OF_DAY;
-        minute = calendar.MINUTE;
-        second = calendar.SECOND;
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1; // January = 0th month
+        date = calendar.get(Calendar.DAY_OF_MONTH);
+        hour = calendar.get(Calendar.HOUR_OF_DAY);
+        minute = calendar.get(Calendar.MINUTE);
+        second = calendar.get(Calendar.SECOND);
     }
 
     public int getYear() {
@@ -70,6 +70,29 @@ public class TimeManager {
 
     public void setSecond(int second) {
         this.second = second;
+    }
+
+    public String getDateString() {
+        String dateSeparator = "-";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(date).append(dateSeparator);
+        sb.append(month).append(dateSeparator);
+        sb.append(year);
+
+        return sb.toString();
+    }
+
+    public String getTimeString() {
+        String timeSeparator = ":";
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(hour).append(timeSeparator);
+        sb.append(minute).append(timeSeparator);
+        sb.append(second);
+
+        return sb.toString();
     }
 
     @Override

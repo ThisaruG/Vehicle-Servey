@@ -7,11 +7,14 @@ import java.sql.Timestamp;
  */
 public class Vehicle {
     private VehicleTypes vehicleType;
-    private Timestamp timeStamp;
+    private String dateString, timeString;
 
-    public Vehicle (VehicleTypes type, Timestamp timeStamp) {
+    private static final int NANO_SECOND_SPLITTER = 19;
+
+    public Vehicle (VehicleTypes type, String dateString, String timeString) {
         this.vehicleType = type;
-        this.timeStamp = timeStamp;
+        this.dateString = dateString;
+        this.timeString = timeString;
     }
 
     public Vehicle() {
@@ -26,11 +29,21 @@ public class Vehicle {
         this.vehicleType = vehicleType;
     }
 
-    public Timestamp getTimeStamp() {
-        return timeStamp;
+    public String getTimeString() {
+        return timeString;
+    }
+    public void setTimeString(String timeString) {
+        this.timeString = timeString;
     }
 
-    public void setTimeStamp(Timestamp timeStamp) {
-        this.timeStamp = timeStamp;
+    public String getDateString() {
+        return dateString;
+    }
+    public void setDateString (String dateTimeString) {
+        this.dateString = dateTimeString;
+    }
+
+    public int getVehicleTypeId () {
+        return vehicleType.getId();
     }
 }

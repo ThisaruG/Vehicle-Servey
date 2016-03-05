@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Column Names
     private static final String KEY_ID = "id";
-    private static final String KEY_TYPE = "vehicle type";
+    private static final String KEY_TYPE = "vehicleType";
+    private static final String KEY_DATE = "date";
     private static final String KEY_TIME = "time";
 
     public DatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -40,8 +42,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TYPE + " INTEGER,"
+        String CREATE_CONTACTS_TABLE =
+                "CREATE TABLE " + TABLE_NAME + "("
+                + KEY_ID + " INTEGER PRIMARY KEY, "
+                + KEY_TYPE + " INTEGER, "
+                + KEY_DATE + " TEXT, "
                 + KEY_TIME + " TEXT" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -57,11 +62,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_TYPE, vehicle.getVehicleType().getType()); // Vehicle Type (String) from the ENUM
-        values.put(KEY_TIME, vehicle.getDateTimeString()); // Time Stamp in "yyyy-MM-dd HH:mm:ss" format
+
+        String getCountQuery = "select * from " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(getCountQuery, null);
+
+        int count = cursor.getCount();
+
+        values.put(KEY_ID, ++count);
+        values.put(KEY_TYPE, vehicle.getVehicleTypeId()); // Vehicle Type (String) from the ENUM
+        values.put(KEY_DATE, vehicle.getDateString());
+        values.put(KEY_TIME, vehicle.getTimeString());
 
         // Inserting Row
         db.insert(TABLE_NAME, null, values);
+        Log.d("Database Handler", "addVehicle: Added Vehicle");
         db.close(); // Closing database connection
     }
 
@@ -74,11 +88,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
+            Log.d("Database Handler", "Cursor has data !!!");
             do {
                 Vehicle vehicle = new Vehicle();
 
                 int vehicleTypeId = cursor.getInt(1);
-                String dateTimeString = cursor.getString(2);
+                String dateString = cursor.getString(2);
+                String timeString = cursor.getString(3);
                 String vehicleType = "";
 
                 for (VehicleTypes type: VehicleTypes.values()) {
@@ -87,8 +103,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     }
                 }
 
-                vehicle.setVehicleType(VehicleTypes.valueOf(vehicleType));
-                vehicle.setDateTimeString(dateTimeString);
+                vehicle.setVehicleType(VehicleTypes.valueFor(vehicleType));
+                vehicle.setDateString(dateString);
+                vehicle.setTimeString(timeString);
 
                 vehicleList.add(vehicle);
 

@@ -12,8 +12,58 @@
     tools:context="com.android.thisaru.vehicleservey.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Car"
+            android:id="@+id/btn_car"
+            android:layout_gravity="center_horizontal"
+            android:onClick="buttonClickCar"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Van"
+            android:id="@+id/btn_van"
+            android:layout_gravity="center_horizontal"
+            android:onClick="buttonClickVan" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lorry"
+            android:id="@+id/btn_lorry"
+            android:layout_gravity="center_horizontal"
+            android:onClick="buttonClickLorry"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bus"
+            android:id="@+id/btn_bus"
+            android:layout_gravity="center_horizontal"
+            android:onClick="buttonClickBus"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bike"
+            android:id="@+id/btn_bike"
+            android:layout_gravity="center_horizontal"
+            android:onClick="buttonClickBike"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Data"
+            android:id="@+id/btn_view_data"
+            android:layout_gravity="center_horizontal"
+            android:onClick="buttonClickViewData"/>
+    </LinearLayout>
 </RelativeLayout>

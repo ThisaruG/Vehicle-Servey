@@ -1,5 +1,6 @@
 package com.android.thisaru.vehicleservey;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,23 +10,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
+import objects.Vehicle;
+import objects.VehicleTypes;
+import services.TimeManager;
+import services.DatabaseHandler;
+
 public class MainActivity extends AppCompatActivity {
+
+    DatabaseHandler databaseHandler = new DatabaseHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -48,5 +48,43 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    TimeManager timeManager = null;
+    Vehicle vehicle = null;
+
+    public void buttonClickCar(View view) {
+        timeManager = new TimeManager();
+        vehicle = new Vehicle(VehicleTypes.CAR, timeManager.getDateString(), timeManager.getTimeString());
+        databaseHandler.addVehicle(vehicle);
+    }
+
+    public void buttonClickVan(View view) {
+        timeManager = new TimeManager();
+        vehicle = new Vehicle(VehicleTypes.VAN, timeManager.getDateString(), timeManager.getTimeString());
+        databaseHandler.addVehicle(vehicle);
+    }
+
+    public void buttonClickLorry(View view) {
+        timeManager = new TimeManager();
+        vehicle = new Vehicle(VehicleTypes.LORRY, timeManager.getDateString(), timeManager.getTimeString());
+        databaseHandler.addVehicle(vehicle);
+    }
+
+    public void buttonClickBus(View view) {
+        timeManager = new TimeManager();
+        vehicle = new Vehicle(VehicleTypes.BUS, timeManager.getDateString(), timeManager.getTimeString());
+        databaseHandler.addVehicle(vehicle);
+    }
+
+    public void buttonClickBike(View view) {
+        timeManager = new TimeManager();
+        vehicle = new Vehicle(VehicleTypes.BIKE, timeManager.getDateString(), timeManager.getTimeString());
+        databaseHandler.addVehicle(vehicle);
+    }
+
+    public void buttonClickViewData(View view) {
+        Intent intent = new Intent(this, ViewDataActivity.class);
+        startActivity(intent);
     }
 }
